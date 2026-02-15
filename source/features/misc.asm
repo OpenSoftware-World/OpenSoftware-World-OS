@@ -102,7 +102,7 @@ os_fatal_error:
 	jmp $				; Halt execution
 
 	
-	.msg_inform		db '>>> FATAL OPERATING SYSTEM ERROR', 13, 10, 0
+	.msg_inform		db '> FATAL OPERATING SYSTEM ERROR (OpenSoftware-World OS encountered an error)', 13, 10, 0
 
 
 ; ==================================================================
