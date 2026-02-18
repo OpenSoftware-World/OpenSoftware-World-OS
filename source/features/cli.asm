@@ -63,6 +63,10 @@ get_cmd:				; Main processing loop
 	call os_string_compare
 	jc near print_list
 
+	mov di, seqlist_string
+	call os_string_compare
+	jc near print_seqlist
+
 	mov di, help_string 		; 'HELP' entered?
 	call os_string_compare
 	jc near print_help
@@ -82,6 +86,14 @@ get_cmd:				; Main processing loop
 	mov di, ver_string		; 'VER' entered?
 	call os_string_compare
 	jc near print_ver
+
+	mov di, shellinfo_string
+	call os_string_compare
+	jc near shell_info
+
+	mov di, diskinfo_string
+	call os_string_compare
+	jc near diskinfo_tool
 
 	mov di, time_string		; 'TIME' entered?
 	call os_string_compare
@@ -106,6 +118,10 @@ get_cmd:				; Main processing loop
 	mov di, copy_string		; 'COPY' entered?
 	call os_string_compare
 	jc near copy_file
+
+	mov di, echo_string
+	call os_string_compare
+	jc near echo_screen
 
 	mov di, ren_string		; 'REN' entered?
 	call os_string_compare
@@ -256,6 +272,73 @@ print_list:
 	call os_print_string
 	jmp get_cmd
 
+; ------------------------------------------------------------------
+
+print_seqlist:
+	mov si, seqlist_list_title
+	call os_print_string
+
+	mov si, seqlist_dir_text
+	call os_print_string
+
+	mov si, seqlist_ls_text
+	call os_print_string
+
+	mov si, seqlist_copy_text
+	call os_print_string
+
+	mov si, seqlist_ren_text
+	call os_print_string
+
+	mov si, seqlist_del_text
+	call os_print_string
+
+	mov si, seqlist_cat_text
+	call os_print_string
+
+	mov si, seqlist_size_text
+	call os_print_string
+
+	mov si, seqlist_seqlist_text
+	call os_print_string
+
+	mov si, seqlist_time_text
+	call os_print_string
+
+	mov si, seqlist_date_text
+	call os_print_string
+
+	mov si, seqlist_ftime_text
+	call os_print_string
+
+	mov si, seqlist_ver_text
+	call os_print_string
+
+	mov si, seqlist_shellinfo_text
+	call os_print_string
+
+	mov si, seqlist_help_text
+	call os_print_string
+
+	mov si, seqlist_exit_text
+	call os_print_string
+
+	mov si, seqlist_shutdown_text
+	call os_print_string
+
+	mov si, seqlist_reboot_text
+	call os_print_string
+
+	mov si, seqlist_sysinfo_text
+	call os_print_string
+
+	mov si, seqlist_diskinfo_text
+	call os_print_string
+
+	mov si, seqlist_oswcalc_text
+	call os_print_string
+
+	jmp get_cmd
 
 ; ------------------------------------------------------------------
 
@@ -377,6 +460,26 @@ print_ver:
 	call os_print_string
 	jmp get_cmd
 
+; ------------------------------------------------------------------
+
+shell_info:
+	mov si, shellinfo_msg
+	call os_print_string
+	jmp get_cmd
+
+; ------------------------------------------------------------------
+
+diskinfo_tool:
+	mov si, diskinfo_oemlabel
+	call os_print_string
+
+	mov si, diskinfo_volumelabel
+	call os_print_string
+
+	mov si, diskinfo_filesystem
+	call os_print_string
+
+	jmp get_cmd
 
 ; ------------------------------------------------------------------
 
@@ -558,6 +661,20 @@ size_file:
 
 
 ; ------------------------------------------------------------------
+
+echo_screen:
+	mov word si, [param_list]
+
+	cmp si, 0
+	je .no_param
+
+	call os_print_string
+	call os_print_newline
+	jmp get_cmd
+
+.no_param:
+	call os_print_newline
+	jmp get_cmd
 
 copy_file:
 	mov word si, [param_list]
@@ -1050,7 +1167,7 @@ exit:
 
 	prompt			db '> ', 0
 
-	list_text		db 'Commands: DIR, LS, COPY, REN, DEL, CAT, SIZE, CLS, CLEAR, LIST, TIME, DATE, FTIME, VER, HELP, EXIT, SHUTDOWN, REBOOT, SYSINFO, OSWCALC', 13, 10, 0
+	list_text		db 'Commands: DIR, LS, COPY, REN, DEL, CAT, SIZE, ECHO, CLS, CLEAR, LIST, SEQLIST, TIME, DATE, FTIME, VER, SHELLINFO, HELP, EXIT, SHUTDOWN, REBOOT, SYSINFO, DISKINFO, OSWCALC', 13, 10, 0
 	dir_help_text		db 'DIR: It displays all files on your hard drive.', 13, 10, 0
 	ls_help_text		db 'LS: Provides detailed information about all files on your hard drive.', 13, 10, 0
 	copy_help_text		db 'COPY: Allows you to copy a specified file from your hard drive with a new name.', 13, 10, 0
@@ -1076,12 +1193,43 @@ exit:
 	notfound_msg		db 'File not found', 13, 10, 0
 	writefail_msg		db 'Could not write file. Write protected or invalid filename?', 13, 10, 0
 	exists_msg		db 'Target file already exists!', 13, 10, 0
+	shellinfo_msg	db 'OpenSoftware-World Shell 1.1', 13, 10, 0
+	diskinfo_oemlabel db 'OEM Label: MIKEBOOT', 13, 10, 0
+	diskinfo_volumelabel db 'Volume Label: OS-WOS', 13, 10, 0
+	diskinfo_filesystem db 'Disk File System: FAT12', 13, 10, 0
+	seqlist_list_title db 'Commands:', 13, 10, 0
+	seqlist_dir_text	db 'DIR', 13, 10, 0
+	seqlist_ls_text		db 'LS', 13, 10, 0
+	seqlist_copy_text	db 'COPY', 13, 10, 0
+	seqlist_ren_text	db 'REN', 13, 10, 0
+	seqlist_del_text	db 'DEL', 13, 10, 0
+	seqlist_cat_text	db 'CAT', 13, 10, 0
+	seqlist_size_text	db 'SIZE', 13, 10, 0
+	seqlist_echo_text	db 'ECHO', 13, 10, 0
+	seqlist_cls_text	db 'CLS', 13, 10, 0
+	seqlist_clear_text	db 'CLEAR', 13, 10, 0
+	seqlist_list_text	db 'LIST', 13, 10, 0
+	seqlist_seqlist_text	db 'SEQLIST', 13, 10, 0
+	seqlist_time_text	db 'TIME', 13, 10, 0
+	seqlist_date_text	db 'DATE', 13, 10, 0
+	seqlist_ftime_text db 'FTIME', 13, 10, 0
+	seqlist_ver_text	db 'VER', 13, 10, 0
+	seqlist_shellinfo_text	db 'SHELLINFO', 13, 10, 0
+	seqlist_help_text	db 'HELP', 13, 10, 0
+	seqlist_exit_text	db 'EXIT', 13, 10, 0
+	seqlist_shutdown_text	db 'SHUTDOWN', 13, 10, 0
+	seqlist_reboot_text	db 'REBOOT', 13, 10, 0
+	seqlist_sysinfo_text	db 'SYSINFO', 13, 10, 0
+	seqlist_diskinfo_text	db 'DISKINFO', 13, 10, 0
+	seqlist_oswcalc_text	db 'OSWCALC', 13, 10, 0
 	finished_msg		db '>>> Program finished, press any key to continue...', 0
 
 	version_msg		db 'OpenSoftware-World OS ', MIKEOS_VER, 13, 10, 0
 
 	exit_string		db 'EXIT', 0
 	list_string		db 'LIST', 0
+	seqlist_string	db 'SEQLIST', 0
+	echo_string     db 'ECHO', 0
 	help_string 		db 'HELP', 0
 	cls_string		db 'CLS', 0
 	clear_string    db 'CLEAR', 0
@@ -1090,11 +1238,13 @@ exit:
 	date_string		db 'DATE', 0
 	ftime_string		db 'FTIME', 0
 	ver_string		db 'VER', 0
+    shellinfo_string db 'SHELLINFO', 0
 	cat_string		db 'CAT', 0
 	del_string		db 'DEL', 0
 	ren_string		db 'REN', 0
 	copy_string		db 'COPY', 0
 	size_string		db 'SIZE', 0
+	diskinfo_string db 'DISKINFO', 0
 	ls_string		db 'LS', 0
 
 	kern_file_string	db 'KERNEL', 0
