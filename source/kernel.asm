@@ -13,7 +13,7 @@
 	CPU 386				; pusha offsets depends on a 386 or better
 					; FS and GS require a 386 or better
 
-	%DEFINE MIKEOS_VER '1.1'	; OS version number
+	%DEFINE MIKEOS_VER '1.2'	; OS version number
 	%DEFINE MIKEOS_API_VER 18	; API version for programs to check
 
 
@@ -201,7 +201,7 @@ option_screen:
 
 	; Data for the above code...
 
-	os_init_msg		db 'OpenSoftware-World OS 1.1 (Based on MikeOS v4.7.0)', 0
+	os_init_msg		db 'OpenSoftware-World OS 1.2 (Based on MikeOS v4.7.0)', 0
 	os_version_msg		db 'Version ', MIKEOS_VER, 0
 
 	dialog_string_1		db 'Thanks for trying out OpenSoftware-World OS!', 0
@@ -347,10 +347,10 @@ not_bas_extension:
 
 	kern_file_name		db 'KERNEL.BIN', 0
 
-	autorun_bin_file_name	db 'AUTORUN.BIN', 0
+	autorun_bin_file_name	db 'AUTORUN.APP', 0
 	autorun_bas_file_name	db 'AUTORUN.BAS', 0
 
-	bin_ext			db 'BIN'
+	bin_ext			db 'APP'
 	bas_ext			db 'BAS'
 
 	kerndlg_string_1	db 'Cannot load and execute OpenSoftware-World OS kernel!', 0
@@ -358,7 +358,7 @@ not_bas_extension:
 	kerndlg_string_3	db 'is not a normal program.', 0
 
 	ext_string_1		db 'Invalid filename extension! You can', 0
-	ext_string_2		db 'only execute .BIN or .BAS programs.', 0
+	ext_string_2		db 'only execute .APP or .BAS programs.', 0
 
 	program_finished_msg	db '> This program has been successfully run -- press any key to return to the main menu...', 0
 

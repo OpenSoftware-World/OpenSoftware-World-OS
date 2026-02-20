@@ -11,6 +11,7 @@ os_command_line:
 
 	mov si, version_msg
 	call os_print_string
+	call os_print_newline
 	mov si, list_text
 	call os_print_string
 
@@ -90,6 +91,10 @@ get_cmd:				; Main processing loop
 	mov di, shellinfo_string
 	call os_string_compare
 	jc near shell_info
+
+	mov di, osfetch_string
+	call os_string_compare
+	jc near osfetch_tool
 
 	mov di, diskinfo_string
 	call os_string_compare
@@ -219,9 +224,9 @@ no_extension:
 	add si, ax
 
 	mov byte [si], '.'
-	mov byte [si+1], 'B'
-	mov byte [si+2], 'I'
-	mov byte [si+3], 'N'
+	mov byte [si+1], 'A'
+	mov byte [si+2], 'P'
+	mov byte [si+3], 'P'
 	mov byte [si+4], 0
 
 	mov ax, command
@@ -277,6 +282,7 @@ print_list:
 print_seqlist:
 	mov si, seqlist_list_title
 	call os_print_string
+	call os_print_newline
 
 	mov si, seqlist_dir_text
 	call os_print_string
@@ -315,6 +321,9 @@ print_seqlist:
 	call os_print_string
 
 	mov si, seqlist_shellinfo_text
+	call os_print_string
+
+	mov si, seqlist_osfetch_text
 	call os_print_string
 
 	mov si, seqlist_help_text
@@ -364,6 +373,9 @@ print_help:
 	mov si, size_help_text
 	call os_print_string
 
+	mov si, echo_help_text
+	call os_print_string
+
 	mov si, cls_help_text
 	call os_print_string
 
@@ -371,6 +383,9 @@ print_help:
 	call os_print_string
 
 	mov si, list_help_text
+	call os_print_string
+
+	mov si, seqlist_hlp_text
 	call os_print_string
 
 	mov si, time_help_text
@@ -383,6 +398,12 @@ print_help:
 	call os_print_string
 
 	mov si, ver_help_text
+	call os_print_string
+
+	mov si, shellinfo_help_text
+	call os_print_string
+
+	mov si, osfetch_help_text
 	call os_print_string
 
 	mov si, help_help_text
@@ -398,6 +419,9 @@ print_help:
 	call os_print_string
 
 	mov si, sysinfo_help_text
+	call os_print_string
+
+	mov si, diskinfo_help_text
 	call os_print_string
 
 	mov si, oswcalc_help_text
@@ -478,6 +502,39 @@ diskinfo_tool:
 
 	mov si, diskinfo_filesystem
 	call os_print_string
+
+	jmp get_cmd
+
+; ------------------------------------------------------------------
+
+osfetch_tool:
+	mov si, osfetch_1
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_2
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_3
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_4
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_5
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_6
+	call os_print_string
+	call os_print_newline
+
+	mov si, osfetch_7
+	call os_print_string
+	call os_print_newline
 
 	jmp get_cmd
 
@@ -1161,13 +1218,13 @@ exit:
 	file_size		dw 0
 	param_list		dw 0
 
-	bin_extension		db '.BIN', 0
+	bin_extension		db '.APP', 0
 	bas_extension		db '.BAS', 0
 	pcx_extension		db '.PCX', 0
 
-	prompt			db '> ', 0
+	prompt			db 'root@shell> ', 0
 
-	list_text		db 'Commands: DIR, LS, COPY, REN, DEL, CAT, SIZE, ECHO, CLS, CLEAR, LIST, SEQLIST, TIME, DATE, FTIME, VER, SHELLINFO, HELP, EXIT, SHUTDOWN, REBOOT, SYSINFO, DISKINFO, OSWCALC', 13, 10, 0
+	list_text		db 'Commands: DIR, LS, COPY, REN, DEL, CAT, SIZE, ECHO, CLS, CLEAR, LIST, SEQLIST, TIME, DATE, FTIME, VER, SHELLINFO, OSFETCH, HELP, EXIT, SHUTDOWN, REBOOT, SYSINFO, DISKINFO, OSWCALC', 13, 10, 0
 	dir_help_text		db 'DIR: It displays all files on your hard drive.', 13, 10, 0
 	ls_help_text		db 'LS: Provides detailed information about all files on your hard drive.', 13, 10, 0
 	copy_help_text		db 'COPY: Allows you to copy a specified file from your hard drive with a new name.', 13, 10, 0
@@ -1175,20 +1232,34 @@ exit:
 	del_help_text		db 'DEL: It allows you to delete any file installed on your hard drive.', 13, 10, 0
 	cat_help_text		db 'CAT: It allows you to display the contents of a file installed on your hard drive.', 13, 10, 0
 	size_help_text		db 'SIZE: It allows you to display the size of a file installed on your hard drive.', 13, 10, 0
+	echo_help_text		db 'ECHO: Allows you to print any text you want on the terminal screen.', 13, 10, 0
 	cls_help_text		db 'CLS: It allows you to clear the screen.', 13, 10, 0
 	clear_help_text		db 'CLEAR: It allows you to clear the screen.', 13, 10, 0
 	list_help_text		db 'LIST: It displays a list of all available commands.', 13, 10, 0
+	seqlist_hlp_text 	db 'SEQLIST: Displays a sequential list of all available commands.', 13, 10, 0
 	time_help_text		db 'TIME: It allows you to display the current system time.', 13, 10, 0
-	date_help_text		db 'DATE: It allows you to display the current system date.',
+	date_help_text		db 'DATE: It allows you to display the current system date.', 13, 10, 0
 	ftime_help_text		db 'FTIME: It allows you to display the current system date and time.', 13, 10, 0
 	ver_help_text		db 'VER: It allows you to display the current version of OpenSoftware-World OS.', 13, 10, 0
+	shellinfo_help_text	db 'SHELLINFO: Displays the shell version information in the operating system.', 13, 10, 0
+	osfetch_help_text	db 'OSFETCH: It displays more detailed information about the operating system.', 13, 10, 0
 	help_help_text		db 'HELP: It allows you to display a list of all available commands and their descriptions.', 13, 10, 0
 	exit_help_text		db 'EXIT: It allows you to exit the command line interface and return to the main menu.', 13, 10, 0
 	shutdown_help_text	db 'SHUTDOWN: It allows you to shut down your computer.', 13, 10, 0
 	reboot_help_text	db 'REBOOT: It allows you to reboot your computer.', 13, 10, 0
 	sysinfo_help_text	db 'SYSINFO: It allows you to display information about your system.', 13, 10, 0
+	diskinfo_help_text	db 'DISKINFO: Displays the partition information loaded on your system.', 13, 10, 0
 	oswcalc_help_text	db 'OSWCALC: It allows you to open the OSWCalc calculator application.', 13, 10, 0
 	invalid_msg		db 'The command you entered could not be found. Please type list for a list of all commands.', 13, 10, 0
+
+	osfetch_1 db "  ____   _____        root@shell", 0
+	osfetch_2 db " / __ \\ / ___/       ----------", 0
+	osfetch_3 db "| |  | | \\__ \\      OS: OpenSoftware-World OS 1.2", 0
+	osfetch_4 db "| |  | |___/ /        Kernel: MikeOS-based (4.7.0)", 0
+	osfetch_5 db " \\____/|____/        Architecture: x86 (32-bit)", 0
+	osfetch_6 db "                      MikeOS API Version: 18", 0
+	osfetch_7 db "                      Shell: OpenSoftware-World Shell 1.1", 0
+
 	nofilename_msg		db 'No filename or not enough filenames', 13, 10, 0
 	notfound_msg		db 'File not found', 13, 10, 0
 	writefail_msg		db 'Could not write file. Write protected or invalid filename?', 13, 10, 0
@@ -1215,6 +1286,7 @@ exit:
 	seqlist_ftime_text db 'FTIME', 13, 10, 0
 	seqlist_ver_text	db 'VER', 13, 10, 0
 	seqlist_shellinfo_text	db 'SHELLINFO', 13, 10, 0
+	seqlist_osfetch_text	db 'OSFETCH', 13, 10, 0
 	seqlist_help_text	db 'HELP', 13, 10, 0
 	seqlist_exit_text	db 'EXIT', 13, 10, 0
 	seqlist_shutdown_text	db 'SHUTDOWN', 13, 10, 0
@@ -1222,7 +1294,7 @@ exit:
 	seqlist_sysinfo_text	db 'SYSINFO', 13, 10, 0
 	seqlist_diskinfo_text	db 'DISKINFO', 13, 10, 0
 	seqlist_oswcalc_text	db 'OSWCALC', 13, 10, 0
-	finished_msg		db '>>> Program finished, press any key to continue...', 0
+	finished_msg		db '> This program has been successfully run -- press any key to return to the main menu...', 0
 
 	version_msg		db 'OpenSoftware-World OS ', MIKEOS_VER, 13, 10, 0
 
@@ -1239,6 +1311,7 @@ exit:
 	ftime_string		db 'FTIME', 0
 	ver_string		db 'VER', 0
     shellinfo_string db 'SHELLINFO', 0
+	osfetch_string db 'OSFETCH', 0
 	cat_string		db 'CAT', 0
 	del_string		db 'DEL', 0
 	ren_string		db 'REN', 0

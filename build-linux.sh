@@ -41,7 +41,7 @@ cd programs
 
 for i in *.asm
 do
-	nasm -O0 -w+orphan-labels -f bin $i -o `basename $i .asm`.bin || exit
+	nasm -O0 -w+orphan-labels -f bin $i -o `basename $i .asm`.app || exit
 done
 
 cd ..
@@ -58,7 +58,7 @@ rm -rf tmp-loop
 
 mkdir tmp-loop && mount -o loop -t vfat disk_images/opensoftware_world_os.flp tmp-loop && cp source/kernel.bin tmp-loop/
 
-cp programs/*.bin programs/*.bas programs/sample.pcx programs/vedithlp.txt programs/gen.4th programs/hello.512 tmp-loop
+cp programs/*.app programs/*.bas programs/sample.pcx programs/vedithlp.txt programs/gen.4th programs/hello.512 tmp-loop
 
 sleep 0.2
 
