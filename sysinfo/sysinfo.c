@@ -8,13 +8,13 @@ int	MikeMain(void *argument)
 
 	mikeos_draw_background("System Information", "v1.1", 0x001f);
 
-	mikeos_print_string("System Information for OpenSoftware-World OS v1.1");
+	mikeos_print_string("System Information for OpenSoftware-World OS v1.2");
 	mikeos_print_newline();
 
 	mikeos_print_newline();
 	mikeos_print_string("OS Name: OpenSoftware-World OS");
 	mikeos_print_newline();
-	mikeos_print_string("OS Version: 1.1");
+	mikeos_print_string("OS Version: 1.2");
 	mikeos_print_newline();
 	mikeos_print_string("OS Base: MikeOS");
 	mikeos_print_newline();
