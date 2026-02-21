@@ -25,19 +25,19 @@ fi
 
 echo ">>> Assembling bootloader..."
 
-nasm -O0 -w+orphan-labels -f bin -o source/bootload/bootload.bin source/bootload/bootload.asm || exit
+nasm -O0 -w+orphan-labels -f bin -o Boot/boot.bin Boot/boot.asm || exit
 
 
 echo ">>> Assembling OpenSoftware-World OS kernel..."
 
-cd source
+cd Kernel
 nasm -O0 -w+orphan-labels -f bin -o kernel.bin kernel.asm || exit
 cd ..
 
 
 echo ">>> Assembling programs..."
 
-cd programs
+cd Apps
 
 for i in *.asm
 do
@@ -49,16 +49,16 @@ cd ..
 
 echo ">>> Adding bootloader to floppy image..."
 
-dd status=noxfer conv=notrunc if=source/bootload/bootload.bin of=disk_images/opensoftware_world_os.flp || exit
+dd status=noxfer conv=notrunc if=Boot/boot.bin of=disk_images/opensoftware_world_os.flp || exit
 
 
 echo ">>> Copying OpenSoftware-World OS kernel and programs..."
 
 rm -rf tmp-loop
 
-mkdir tmp-loop && mount -o loop -t vfat disk_images/opensoftware_world_os.flp tmp-loop && cp source/kernel.bin tmp-loop/
+mkdir tmp-loop && mount -o loop -t vfat disk_images/opensoftware_world_os.flp tmp-loop && cp Kernel/kernel.bin tmp-loop/
 
-cp programs/*.app programs/*.bas programs/sample.pcx programs/vedithlp.txt programs/gen.4th programs/hello.512 tmp-loop
+cp Apps/*.app Apps/*.bas Apps/sample.pcx Apps/vedithlp.txt Apps/gen.4th Apps/hello.512 tmp-loop
 
 sleep 0.2
 

@@ -27,23 +27,23 @@ fi
 
 echo ">>> Assembling bootloader..."
 
-nasm -O0 -w+orphan-labels -f bin -o source/bootload/bootload.bin source/bootload/bootload.asm || exit
+nasm -O0 -w+orphan-labels -f bin -o Boot/boot.bin Boot/boot.asm || exit
 
 
 echo ">>> Assembling OpenSoftware-World OS kernel..."
 
-cd source
+cd Kernel
 nasm -O0 -w+orphan-labels -f bin -o kernel.bin kernel.asm || exit
 cd ..
 
 
 echo ">>> Assembling programs..."
 
-cd programs
+cd Apps
 
 for i in *.asm
 do
-	nasm -O0 -w+orphan-labels -f bin $i -o `basename $i .asm`.bin || exit
+	nasm -O0 -w+orphan-labels -f bin $i -o `basename $i .asm`.app || exit
 done
 
 cd ..
@@ -59,9 +59,9 @@ echo ">>> Copying OpenSoftware-World OS kernel and programs..."
 rm -rf tmp-loop
 vnconfig vnd3 disk_images/opensoftware_world_os.flp || exit
 
-mkdir tmp-loop && mount -t msdos /dev/vnd3c tmp-loop && cp source/kernel.bin tmp-loop/
+mkdir tmp-loop && mount -t msdos /dev/vnd3c tmp-loop && cp Kernel/kernel.bin tmp-loop/
 
-cp programs/*.bin programs/*.bas programs/sample.pcx programs/vedithlp.txt programs/gen.4th programs/hello.512 tmp-loop
+cp Apps/*.bin Apps/*.bas Apps/sample.pcx Apps/vedithlp.txt Apps/gen.4th Apps/hello.512 tmp-loop
 
 echo ">>> Unmounting loopback floppy..."
 

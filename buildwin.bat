@@ -3,36 +3,37 @@ echo Build script for Windows
 echo.
 
 echo Assembling bootloader...
-cd source\bootload
-nasm -O0 -f bin -o bootload.bin bootload.asm
+cd Boot\boot
+nasm -O0 -f bin -o boot.bin boot.asm
 cd ..
 
-echo Assembling MikeOS kernel...
+cd Kernel
+echo Assembling OpenSoftware-World OS kernel...
 nasm -O0 -f bin -o kernel.bin kernel.asm
 
 echo Assembling programs...
-cd ..\programs
- for %%i in (*.asm) do nasm -O0 -f bin %%i
+cd ..\Apps
+ for %%i in (*.asm) do nasm -O0 -f app %%i
  for %%i in (*.bin) do del %%i
  for %%i in (*.) do ren %%i %%i.bin
 cd ..
 
 echo Adding bootsector to disk image...
 cd disk_images
-dd count=2 seek=0 bs=512 if=..\source\bootload\bootload.bin of=.\opensoftware_world_os.flp
+dd count=2 seek=0 bs=512 if=..\Boot\boot.bin of=.\opensoftware_world_os.flp
 cd ..
 
 echo Mounting disk image...
 imdisk -a -f disk_images\opensoftware_world_os.flp -s 1440K -m B:
 
 echo Copying kernel and applications to disk image...
-copy source\kernel.bin b:\
-copy programs\*.bin b:\
-copy programs\sample.pcx b:\
-copy programs\vedithlp.txt b:\
-copy programs\gen.4th b:\
-copy programs\hello.512 b:\
-copy programs\*.bas b:\
+copy Kernel\kernel.bin b:\
+copy Apps\*.app b:\
+copy Apps\sample.pcx b:\
+copy Apps\vedithlp.txt b:\
+copy Apps\gen.4th b:\
+copy Apps\hello.512 b:\
+copy Apps\*.bas b:\
 
 echo Dismounting disk image...
 imdisk -D -m B:

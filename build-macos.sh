@@ -71,15 +71,15 @@ nasm_version_check "$current_nasm_version" "$MINIMUM_NASM_VERSION"
 
 [ $? -ne 0 ] && echo "[halt] nasm not found or version is incompatible" >&2 && exit 1
 
-"$NASM_PATH" -O0 -f bin -o source/bootload/bootload.bin source/bootload/bootload.asm || exit 1
+"$NASM_PATH" -O0 -f bin -o Boot/boot.bin Boot/boot.asm || exit 1
 echo "[okay] assembled bootloader"
 
-cd source
+cd Kernel
 "$NASM_PATH" -O0 -f bin -o kernel.bin kernel.asm || exit 1
 echo "[okay] assembled kernel"
 cd ..
 
-cd programs
+cd Apps
 for i in *.asm; do
 	"$NASM_PATH" -O0 -f bin $i -o "$(basename $i .asm).bin" || exit 1
 	echo "[okay] assembled program: $i"
@@ -90,7 +90,7 @@ cd ..
 cp disk_images/opensoftware_world_os.flp disk_images/opensoftware_world_os.dmg
 echo "[okay] copied floppy image"
 
-dd conv=notrunc if=source/bootload/bootload.bin of=disk_images/opensoftware_world_os.dmg || exit 1
+dd conv=notrunc if=Boot/boot.bin of=disk_images/opensoftware_world_os.dmg || exit 1
 echo "[okay] added bootloader to image"
 
 tmp_file=$(mktemp -d /tmp/$(basename $0).XXXXXX)
@@ -102,8 +102,8 @@ dev=$(echo -n $(hdid -nobrowse -nomount disk_images/opensoftware_world_os.dmg))
 mount -t msdos "$dev" "$tmp_file"
 [ $? -ne 0 ] && echo "[halt] could not mount "$dev"" >&2 && exit 1
 
-cp source/kernel.bin "$tmp_file/"
-cp programs/*.bin programs/*.bas programs/sample.pcx programs/vedithlp.txt programs/gen.4th programs/hello.512 "$tmp_file"
+cp Kernel/kernel.bin "$tmp_file/"
+cp Apps/*.bin Apps/*.bas Apps/sample.pcx Apps/vedithlp.txt Apps/gen.4th Apps/hello.512 "$tmp_file"
 echo "[okay] added programs to image"
 
 diskutil umount "$tmp_file"
