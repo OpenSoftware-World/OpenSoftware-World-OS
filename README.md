@@ -10,7 +10,7 @@
 - **Lightweight & Fast**: Minimalist structure free from unnecessary system load.
 - **Modern User Experience**: User-friendly interface and simple management tools.
 - **Developer Friendly**: Open-source and modular code, easy to extend with new features.
-- **Platform Support**: Supports x86 and x86_64 architectures.
+- **Platform Support**: Supports x86 architectures.
 
 ---
 
