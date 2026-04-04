@@ -1,8 +1,8 @@
-#include "SystemLib/Std/types.h"
-#include "Drivers/Vga/vga.h"
-#include "SystemLib/SysCalls/basic_syscall.h"
-#include "SystemLib/TimeMng/time.h"
-#include "Kernel/KernelServices/Shell/shell.h"
+#include "OpenKernel/SystemLib/Std/types.h"
+#include "OpenKernel/Drivers/Vga/vga.h"
+#include "OpenKernel/SystemLib/SysCalls/basic_syscall.h"
+#include "OpenKernel/SystemLib/TimeMng/time.h"
+#include "OSServices/Shell/shell.h"
 
 void kernel_main()
 {
@@ -29,8 +29,8 @@ void kernel_main()
     // Main menu
     vga_set_color_scheme(VGA_COLOR_BLUE, VGA_COLOR_WHITE);
     vga_screen_clear();
-    vga_print_scr_nw("Welcome to the OpenKernel!");
-    vga_print_scr_nw("OpenKernel version 1.0 (It was created for future use in OpenSoftware-World OS.)");
+    vga_print_scr_nw("Welcome to the OpenSoftware-World OS!");
+    vga_print_scr_nw("OpenSoftware-World OS version 1.0");
 
     // Shell is starting
     vga_newline();
