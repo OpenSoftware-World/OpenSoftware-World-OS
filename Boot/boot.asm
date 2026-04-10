@@ -3,7 +3,7 @@ bits 32
 %include "Boot/Mboot_desc/mboot.asm"
 
 global _start
-extern kernel_main
+extern system_init
 
 section .text
 _start:
@@ -13,7 +13,7 @@ _start:
     cli
     mov esp, 0x9FC00
 
-    call kernel_main
+    call system_init
 
 hang:
     hlt
