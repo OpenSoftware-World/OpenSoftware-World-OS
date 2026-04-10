@@ -13,6 +13,17 @@
 #define TIME_STRING "time"
 #define VERSION_STRING "version"
 #define ECHO_STRING "echo "
+#define CPUINFO_STRING "cpuinfo"
+#define HELP_STRING "help"
+#define DISKINFO_STRING "diskinfo"
+#define SYSINFO_STRING "sysinfo"
+#define DIR_STRING "dir"
+#define LS_STRING "ls"
+#define COPY_STRING "copy"
+#define REN_STRING "ren"
+#define DEL_STRING "del"
+#define CAT_STRING "cat"
+#define SIZE_STRING "size"
 
 /*
 U: Upper case
@@ -29,6 +40,17 @@ U: Upper case
 #define U_REBOOT_STRING "REBOOT"
 #define U_TIME_STRING "TIME"
 #define U_VERSION_STRING "VERSION"
-#define U_ECHO_STRING   "ECHO "
+#define U_ECHO_STRING "ECHO "
+#define U_CPUINFO_STRING "CPUINFO"
+#define U_HELP_STRING "HELP"
+#define U_DISKINFO_STRING "DISKINFO"
+#define U_SYSINFO_STRING "SYSINFO"
+#define U_DIR_STRING "DIR"
+#define U_LS_STRING "LS"
+#define U_COPY_STRING "COPY"
+#define U_REN_STRING "REN"
+#define U_DEL_STRING "DEL"
+#define U_CAT_STRING "CAT"
+#define U_SIZE_STRING "SIZE"
 
 #endif
