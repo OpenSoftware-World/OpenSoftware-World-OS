@@ -14,7 +14,12 @@ typedef signed short int16_t;
 typedef signed int int32_t;
 typedef signed long long int64_t;
 
+typedef float float32_t;
+typedef double float64_t;
+
 #define true 1
 #define false 0
+
+#define NULL ((void *)0)
 
 #endif

@@ -3,23 +3,33 @@
 
 static uint16_t *vgabuffer = (uint16_t *)VBUFFER;
 static uint8_t txt_color = VGA_COLOR(VGA_COLOR_BLACK, VGA_COLOR_LIGHT_GREY);
-static uint8_t cx = 0;
-static uint8_t cy = 0;
+static uint8_t cx = 0; // cursor x
+static uint8_t cy = 0; // cursor y
 
-void vga_screen_clear() {
-    for (uint16_t y=0; y < VHEIGHT; y++) {
-        for (uint16_t x=0; x < VWIDTH; x++) {
+void vga_clear_screen(const char *mode) {
+    if (mode[0] == 'F') {
+        for (uint16_t y=0; y < VHEIGHT; y++) {
+            for (uint16_t x=0; x < VWIDTH; x++) {
+                vgabuffer[y * VWIDTH + x] = VGA_ENTRY(' ', txt_color);
+            }
+        }
+        cx = 0;
+        cy = 0;
+    } else if (mode[0] == 'C') {
+        for (int y = 1; y < VHEIGHT - 1; y++) {
+        for (int x = 0; x < VWIDTH; x++) {
             vgabuffer[y * VWIDTH + x] = VGA_ENTRY(' ', txt_color);
         }
     }
     cx = 0;
-    cy = 0;
+    cy = 1;
+    }
 }
 
 void vga_set_bg_color(uint8_t color) {
     uint8_t fg = txt_color & 0x0F;
     txt_color = VGA_COLOR(color, fg);
-    vga_screen_clear();
+    vga_clear_screen("F");
 }
 
 void vga_set_text_color(uint8_t color) {
@@ -45,7 +55,7 @@ void ptchar(char c) {
         }
     }
     if (cy >= VHEIGHT) {
-        vga_screen_clear();
+        vga_clear_screen("C");
     }
     vga_set_cursor(cx, cy);
 }
@@ -53,6 +63,21 @@ void ptchar(char c) {
 void vga_print_scr(const char *str) {
     while (*str) {
         ptchar(*str++);
+    }
+}
+
+void vga_print_hex(uint32_t n) {
+    char hex[9];
+    const char *digits = "0123456789ABCDEF";
+
+    for (int i = 0; i < 8; i++) {
+        hex[7 - i] = digits[n & 0xF];
+        n >>= 4;
+    }
+    hex[8] = '\0';
+
+    for(int i = 0; i < 8; i++) {
+        ptchar(hex[i]);
     }
 }
 
@@ -66,13 +91,13 @@ void vga_newline() {
     cy++;
 
     if (cy >= VHEIGHT) {
-        vga_screen_clear();
+        vga_clear_screen("C");
     }
     vga_set_cursor(cx, cy);
 }
 
 void vga_init() {
-    vga_screen_clear();
+    vga_clear_screen("F");
 }
 
 void vga_set_cursor(uint8_t x, uint8_t y) {
