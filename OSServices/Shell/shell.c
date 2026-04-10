@@ -38,9 +38,9 @@ void shell_init() {
             cmd[idx] = 0;
             idx = 0;
 
-            if (strcmp(cmd, "list") == 0) {
+            if (strcmp(cmd, LIST_STRING) == 0 || strcmp(cmd, U_LIST_STRING) == 0) {
                 vga_print_scr("Commands: clear, cls, list, seqlist, ver, shellinfo, osfetch, shutdown, reboot, time, version, echo\n");
-            } else if (strcmp(cmd, SEQLIST_STRING) == 0) {
+            } else if (strcmp(cmd, SEQLIST_STRING) == 0 || strcmp(cmd, U_SEQLIST_STRING) == 0) {
                 vga_print_scr_nw("Commands:");
                 vga_print_scr_nw("clear");
                 vga_print_scr_nw("cls");
@@ -54,7 +54,7 @@ void shell_init() {
                 vga_print_scr_nw("time");
                 vga_print_scr_nw("version");
                 vga_print_scr_nw("echo");
-            } else if (strcmp(cmd, OSFETCH_STRING) == 0) {
+            } else if (strcmp(cmd, OSFETCH_STRING) == 0 || strcmp(cmd, U_OSFETCH_STRING) == 0) {
                 
                 vga_print_scr_nw("  ____   _____      root@shell");
                 vga_print_scr_nw(" / __ \\ / ___/      ----------");
@@ -63,22 +63,22 @@ void shell_init() {
                 vga_print_scr_nw("| |  | |___/  /     Bootloader Name: GNU GRUB Bootloader");
                 vga_print_scr_nw("| |   | ___/  /     Bootloader version: 2.12");
                 vga_print_scr_nw(" \\____/|_____/      Architecture: x86 (32-bit)");
-                vga_print_scr_nw("                    Shell: OpenSoftware-World Shell 1.0");
-            } else if (strcmp(cmd, CLEAR_STRING) == 0 || strcmp(cmd, CLS_STRING) == 0) {
+                vga_print_scr_nw("                    Shell: OpenSoftware-World Shell 1.1");
+            } else if (strcmp(cmd, CLEAR_STRING) == 0 || strcmp(cmd, CLS_STRING) == 0 || strcmp(cmd, U_CLEAR_STRING) == 0 || strcmp(cmd, U_CLS_STRING) == 0) {
                 vga_screen_clear();
-            } else if (strcmp(cmd, TIME_STRING) == 0) {
+            } else if (strcmp(cmd, TIME_STRING) == 0 || strcmp(cmd, U_TIME_STRING) == 0) {
                 print_time();
-            } else if (strncmp(cmd, ECHO_STRING, 5) == 0) {
+            } else if (strncmp(cmd, ECHO_STRING, 5) == 0 || strncmp(cmd, U_ECHO_STRING, 5) == 0) {
                 vga_print_scr(cmd + 5);
                 vga_newline();
-            } else if (strcmp(cmd, SHELLINFO_STRING) == 0) {
-                vga_print_scr_nw("OpenSoftware-World Shell 1.0");
-            } else if (strcmp(cmd, SHUTDOWN_STRING) == 0) {
+            } else if (strcmp(cmd, SHELLINFO_STRING) == 0 || strcmp(cmd, U_SHELLINFO_STRING) == 0) {
+                vga_print_scr_nw("OpenSoftware-World Shell 1.1");
+            } else if (strcmp(cmd, SHUTDOWN_STRING) == 0 || strcmp(cmd, U_SHUTDOWN_STRING) == 0) {
                 sys_next_status("S");
-            } else if (strcmp(cmd, REBOOT_STRING) == 0) {
+            } else if (strcmp(cmd, REBOOT_STRING) == 0 || strcmp(cmd, U_REBOOT_STRING) == 0) {
                 sys_next_status("R");
-            } else if (strcmp(cmd, VERSION_STRING) == 0 || strcmp(cmd, VER_STRING) == 0) {
-                vga_print_scr("OpenSoftware-World v1.0");
+            } else if (strcmp(cmd, VERSION_STRING) == 0 || strcmp(cmd, VER_STRING) == 0 || strcmp(cmd, U_VERSION_STRING) == 0 || strcmp(cmd, U_VER_STRING) == 0) {
+                vga_print_scr("OpenSoftware-World OS 1.0");
                 vga_newline();
             } else {
                 vga_print_scr("The command you entered could not be found. Please type list for a list of all commands.");
