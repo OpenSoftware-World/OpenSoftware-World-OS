@@ -7,6 +7,8 @@
 #include "../../OpenKernel/Drivers/Keyboard/keyboard.h"
 #include "../../OpenKernel/SystemLib/Std/std.h"
 #include "../../OpenKernel/Kernel/KernelServices/SystemManagement/sysmng.h"
+#include "../../OpenKernel/Kernel/openkernel_information.h"
+#include "../../Boot/Mboot_desc/os_boot_desc.h"
 
 void shell_inp() {
     vga_set_text_color(VGA_COLOR_GREEN);
@@ -58,14 +60,14 @@ void shell_init() {
                 
                 vga_print_scr_nw("  ____   _____      root@shell");
                 vga_print_scr_nw(" / __ \\ / ___/      ----------");
-                vga_print_scr_nw("| |  | | \\__ \\      OS: OpenSoftware-World OS 1.0");
-                vga_print_scr_nw("| |  | |___/  /     Kernel: OpenKernel 1.0");
-                vga_print_scr_nw("| |  | |___/  /     Bootloader Name: GNU GRUB Bootloader");
-                vga_print_scr_nw("| |   | ___/  /     Bootloader version: 2.12");
-                vga_print_scr_nw(" \\____/|_____/      Architecture: x86 (32-bit)");
-                vga_print_scr_nw("                    Shell: OpenSoftware-World Shell 1.1");
+                vga_print_scr("| |  | | \\__ \\      OS: "); vga_print_scr(OS_NAME); vga_print_scr(" "); vga_print_scr_nw(OS_VER);
+                vga_print_scr("| |  | |___/  /     Kernel: "); vga_print_scr(KRNL_NAME); vga_print_scr(" "); vga_print_scr_nw(KRNL_VER);
+                vga_print_scr("| |  | |___/  /     Bootloader Name: "); vga_print_scr_nw(OS_BOOTLDR_NAME);
+                vga_print_scr("| |   | ___/  /     Bootloader version: "); vga_print_scr_nw(OS_BOOTLDR_VER);
+                vga_print_scr(" \\____/|_____/      Architecture: "); vga_print_scr_nw(KRNL_ARCH);
+                vga_print_scr("                    Shell: "); vga_print_scr(OS_SHELL_NAME); vga_print_scr(" "); vga_print_scr_nw(OS_SHELL_VER);
             } else if (strcmp(cmd, CLEAR_STRING) == 0 || strcmp(cmd, CLS_STRING) == 0 || strcmp(cmd, U_CLEAR_STRING) == 0 || strcmp(cmd, U_CLS_STRING) == 0) {
-                vga_screen_clear();
+                vga_clear_screen("F");
             } else if (strcmp(cmd, TIME_STRING) == 0 || strcmp(cmd, U_TIME_STRING) == 0) {
                 print_time();
             } else if (strncmp(cmd, ECHO_STRING, 5) == 0 || strncmp(cmd, U_ECHO_STRING, 5) == 0) {
@@ -74,9 +76,9 @@ void shell_init() {
             } else if (strcmp(cmd, SHELLINFO_STRING) == 0 || strcmp(cmd, U_SHELLINFO_STRING) == 0) {
                 vga_print_scr_nw("OpenSoftware-World Shell 1.1");
             } else if (strcmp(cmd, SHUTDOWN_STRING) == 0 || strcmp(cmd, U_SHUTDOWN_STRING) == 0) {
-                sys_next_status("S");
+                sys_next_status("S", 0);
             } else if (strcmp(cmd, REBOOT_STRING) == 0 || strcmp(cmd, U_REBOOT_STRING) == 0) {
-                sys_next_status("R");
+                sys_next_status("R", 0);
             } else if (strcmp(cmd, VERSION_STRING) == 0 || strcmp(cmd, VER_STRING) == 0 || strcmp(cmd, U_VERSION_STRING) == 0 || strcmp(cmd, U_VER_STRING) == 0) {
                 vga_print_scr("OpenSoftware-World OS 1.0");
                 vga_newline();
