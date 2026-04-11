@@ -1,7 +1,8 @@
 #include "kernel_func.h"
 
 func_table_t ftable[] = {
-    {"", },
+    {"os_start", os_start},
+    {"os_main", os_main},
     {0, 0}
 };
 

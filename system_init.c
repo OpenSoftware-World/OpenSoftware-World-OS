@@ -2,12 +2,16 @@
 #include "OpenKernel/SystemLib/SysCalls/basic_syscall.h"
 #include "OpenKernel/SystemLib/KernelFunc/kernel_func.h"
 #include "OpenKernel/SystemLib/TimeMng/time.h"
+#include "OpenKernel/OFS/ofs.h"
+#include "OSLib/CreateSystemFile/sys_file.h"
 
 void system_init()
 {
     // The system is starting up and displaying log messages
     vga_init();
     sleep(30);
+    ofs_init();
+    create_system_file();
     log_message("S", "System disk read successful; loading the kernel...");
     sleep(30);
     log_message("I", "Kernel initialized successfully.");
@@ -26,5 +30,5 @@ void system_init()
     sleep(100);
 
     // Jump to the main menu
-    exec_func("os_main");
+    exec_func("os_start");
 }
