@@ -66,7 +66,7 @@ iso: $(KERNEL)
 	cp $(KERNEL) $(ISO)/boot/
 	cp Boot/grub/grub.cfg $(ISO)/boot/grub/
 	grub-mkrescue -o $(ISOFILE) $(ISO)
-	qemu-img create disk.img 20M
+	test -f disk.img || qemu-img create disk.img 20M
 
 # Run
 run: iso
