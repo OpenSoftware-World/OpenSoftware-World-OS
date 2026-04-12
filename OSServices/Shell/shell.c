@@ -113,7 +113,7 @@ void shell_init() {
                 vga_newline();
 
             } else if (strcmp(cmd, SYSINFO_STRING) == 0 || strcmp(cmd, U_SYSINFO_STRING) == 0) {
-                vga_print_scr("System Information:");
+                vga_print_scr_nw("System Information:");
                 vga_newline();
                 vga_print_scr("OS: "); vga_print_scr(OS_NAME); vga_print_scr(" "); vga_print_scr_nw(OS_VER);
                 vga_print_scr("Kernel: "); vga_print_scr(KRNL_NAME); vga_print_scr(" "); vga_print_scr_nw(KRNL_VER);
@@ -141,7 +141,6 @@ void shell_init() {
                 vga_newline();
 
                 get_sys_cpuinfo("B");
-                vga_newline();
             } else if (strcmp(cmd, DIR_STRING) == 0 || strcmp(cmd, U_DIR_STRING) == 0 || strcmp(cmd, LS_STRING) == 0 || strcmp(cmd, U_LS_STRING) == 0) {
                 ofs_list_files();
             } else if (strncmp(cmd, COPY_STRING, 5) == 0 || strncmp(cmd, U_COPY_STRING, 5) == 0) {
