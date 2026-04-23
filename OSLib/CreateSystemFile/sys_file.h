@@ -52,6 +52,15 @@ void create_system_file() {
     sleep(1);
     ofs_create_file("Apps/HelloWorld/hello.app", 512);
     sleep(1);
+
+    // Include Apps
+
+    sleep(1);
+
+    ofs_create_file("/Apps/TestApp/test_app.app", 512);
+    sleep(1);
+    ofs_create_file("/Apps/HelloWorld/hello.app", 512);
+    sleep(1);
 }
 
 #endif

@@ -44,7 +44,7 @@ void shell_init() {
             idx = 0;
 
             if (strcmp(cmd, LIST_STRING) == 0 || strcmp(cmd, U_LIST_STRING) == 0) {
-                vga_print_scr("Commands: clear, cls, list, seqlist, ver, shellinfo, osfetch, shutdown, reboot, time, version, echo, cpuinfo, help, diskinfo, sysinfo, dir, ls, copy, ren, del, cat, size\n");
+                vga_print_scr("Commands: clear, cls, list, seqlist, ver, shellinfo, osfetch, shutdown, reboot, time, version, echo, cpuinfo, help, diskinfo, sysinfo, dir, ls, copy, ren, del, cat, size, runapp, listapp\n");
             } else if (strcmp(cmd, SEQLIST_STRING) == 0 || strcmp(cmd, U_SEQLIST_STRING) == 0) {
                 vga_print_scr_nw("Commands:");
                 vga_print_scr("clear,"); vga_print_scr_nw(" cpuinfo");
@@ -58,7 +58,8 @@ void shell_init() {
                 vga_print_scr("reboot,"); vga_print_scr_nw(" del");
                 vga_print_scr("time,"); vga_print_scr_nw(" cat");
                 vga_print_scr("version,"); vga_print_scr_nw(" size");
-                vga_print_scr_nw("echo");
+                vga_print_scr("echo,"); vga_print_scr_nw(" runapp");
+                vga_print_scr_nw("listapp");
                 log_message("W", "Due to certain issues related to OpenKernel, some commands may not work.");
             } else if (strcmp(cmd, OSFETCH_STRING) == 0 || strcmp(cmd, U_OSFETCH_STRING) == 0) {
                 
@@ -163,6 +164,19 @@ void shell_init() {
                 
             } else if (strcmp(cmd, "") == 0) {
                 vga_print_scr("");
+            } else if (strncmp(cmd, RUNAPP_STRING, 6) == 0 || strncmp(cmd, U_RUNAPP_STRING, 6) == 0) {
+                const char *app_name = cmd + 7;
+                while (*app_name == ' ') app_name++;
+
+                if (strcmp(app_name, "hello.app") == 0) {
+                    exec_func("helloapp");
+                } else if (strcmp(app_name, "test.app") == 0) {
+                    exec_func("testapp");
+                } else {
+                    vga_print_scr_nw("App not found.");
+                }
+            } else if (strcmp(cmd, LISTAPP_STRING) == 0 || strcmp(cmd, U_LISTAPP_STRING) == 0) {
+                vga_print_scr("Apps: \nhello.app\ntest.app\n");
             }
             else {
                 vga_print_scr_nw("The command you entered could not be found. Please type list for a list of all commands.");

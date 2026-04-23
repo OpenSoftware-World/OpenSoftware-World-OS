@@ -24,6 +24,8 @@
 #define DEL_STRING "del"
 #define CAT_STRING "cat"
 #define SIZE_STRING "size"
+#define RUNAPP_STRING "runapp "
+#define LISTAPP_STRING "listapp"
 
 /*
 U: Upper case
@@ -52,5 +54,7 @@ U: Upper case
 #define U_DEL_STRING "DEL"
 #define U_CAT_STRING "CAT"
 #define U_SIZE_STRING "SIZE"
+#define U_RUNAPP_STRING "RUNAPP "
+#define U_LISTAPP_STRING "LISTAPP"
 
 #endif
