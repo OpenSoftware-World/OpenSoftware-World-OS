@@ -34,13 +34,36 @@ C_SRC = main.c \
 		OpenKernel/SystemLib/Std/std.c \
 		OpenKernel/Drivers/Keyboard/keyboard.c
 
+# Apps
+APP_CC = i686-elf-gcc
+APP_LD = i686-elf-gcc
+
+APP_CFLAGS = -m32 -ffreestanding -O2 -Wall -Wextra -ISystemLib/Std -IDrivers/Vga
+APP_BUILD = $(BUILD)/Apps
+
+APP_FILES = $(shell find $(APP_BUILD) -type f -name "*.app")
+ISO_APP_DIR = $(ISO)/Apps
+
+APP_SRC = Apps/TestApp/test_app.c \
+		  Apps/HelloWorld/hello.c
+
+APP_BIN = $(APP_SRC:Apps/%.c=$(APP_BUILD)/%.app)
+
+$(APP_BUILD)/%.app: Apps/%.c
+	@mkdir -p $(dir $@)
+	$(APP_CC) $(APP_CFLAGS) -c $< -o $@.o
+	$(APP_LD) $@.o -o $@
+	rm -f $@.o
+
+apps: $(APP_BIN)
+
 # Obj
 ASM_OBJ = $(ASM_SRC:%.asm=$(BUILD)/%.o)
 C_OBJ = $(C_SRC:%.c=$(BUILD)/%.o)
 
 OBJS = $(ASM_OBJ) $(C_OBJ)
 
-all: $(KERNEL)
+all: $(KERNEL) apps
 
 # Build Folders
 $(BUILD):
@@ -61,10 +84,12 @@ $(KERNEL): $(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(KERNEL)
 
 # ISO Folder Structure
-iso: $(KERNEL)
+iso: $(KERNEL) apps
 	mkdir -p $(ISO)/boot/grub
+	mkdir -p $(ISO_APP_DIR)
 	cp $(KERNEL) $(ISO)/boot/
 	cp Boot/grub/grub.cfg $(ISO)/boot/grub/
+	cp $(APP_BUILD)/*.app $(ISO_APP_DIR)/ 2>/dev/null || true
 	grub-mkrescue -o $(ISOFILE) $(ISO)
 	test -f disk.img || qemu-img create disk.img 20M
 

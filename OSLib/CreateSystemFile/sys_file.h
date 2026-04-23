@@ -43,6 +43,15 @@ void create_system_file() {
     uint8_t buf5[512] = OS_NAME " " OS_VER;
     ofs_create_file("/System/system.info", 512);
     ofs_write_file("/System/system.info", buf5, 512);
+
+    // Include Apps
+
+    sleep(1);
+
+    ofs_create_file("Apps/TestApp/test_app.app", 512);
+    sleep(1);
+    ofs_create_file("Apps/HelloWorld/hello.app", 512);
+    sleep(1);
 }
 
 #endif
