@@ -7,32 +7,11 @@ void os_start()
     vga_set_text_color(VGA_COLOR_WHITE);
     vga_clear_screen("F");
     vga_print_scr_nw("OpenSoftware-World OS 2.0 is starting.");
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(5);
-    vga_print_scr("=");
-    sleep(10);
+
+    for (int i = 0; i < 14; i++) {
+        vga_print_scr("=");
+        sleep(5);
+    }
 
     exec_func("os_main");
 }
