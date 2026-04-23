@@ -13,6 +13,29 @@ void vga_draw_scr(int x, int y, char c, unsigned char color) {
     vgabuffer[y * VWIDTH + x] = (color << 8) | c;   
 }
 
+void vga_draw_str(int x, int y, const char* str, unsigned char color) {
+    int cx = x;
+    int cy = y;
+
+    while (*str) {
+        if (*str == '\n') {
+            cx = x;
+            cy++;
+        } else {
+            if (cx >= VWIDTH) {
+                cx = x;
+                cy++;
+            }
+
+            if (cy >= VHEIGHT) break;
+
+            vgabuffer[cy * VWIDTH + cx] = (color << 8) | *str;
+            cx++;
+        }
+        str++;
+    }
+}
+
 void vga_draw_scr_bar(const char *mode ,const char* text) {
     if (mode[0] == 'B') {
         int y = VHEIGHT - 1;
